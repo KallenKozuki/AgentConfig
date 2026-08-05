@@ -1,0 +1,12 @@
+---
+description: "C# 注释规范：public 接口用 XML 注释，private 接口用单行注释"
+globs: **/*.cs
+alwaysApply: true
+---
+
+# C# 注释规范
+
+- 所有 `public` 接口、类型、属性、字段和方法使用 XML 注释（`/// <summary>` 等）。
+- 所有 `private` 方法和私有辅助接口使用 `//` 单行注释说明用途。
+- 注释保持简洁，描述职责或行为，不重复代码本身。
+- 注释的结尾不需要写句号

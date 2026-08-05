@@ -1,0 +1,28 @@
+---
+description: UI Controller 的状态归属、静态调用与回调区域规范
+globs: Assets/Scripts/GamePlay/UILogic/**/*Ctrl.cs
+alwaysApply: true
+---
+
+# UI Controller 结构规范
+
+适用于 UI 界面的 `*Ctrl.cs` 控制器脚本。
+
+1. UICtrl 禁止声明字段；Controller 中只保留成员函数。
+2. UI 所需的状态、缓存及其他变量必须定义在对应的 UIModel 中，由 Controller 通过成员函数读写。
+3. UICtrl 和对应 UIModel 均应优先使用实例成员；除非确有无状态且无需依赖实例的理由，否则不要使用 `static` 方法。
+4. 每个 UICtrl 文件末尾必须依次包含以下两个 region：
+
+   ```csharp
+   #region UI交互
+   // 仅放 UI 交互回调
+   #endregion
+
+   #region 事件
+   // 仅放事件监听回调
+   #endregion
+   ```
+
+5. `UI交互` region 仅放 UI 控件交互产生的回调；`事件` region 仅放事件监听回调。其他方法、接口或业务逻辑不得放入这两个 region。
+6. 界面隐藏时，UICtrl 基类会统一停止该界面创建的定时器；`OnHide` 中不要重复调用 `TimerManager.StopTimer`，只在需要时重置 UIModel 中保存的定时器 ID 或界面状态。
+7. 数据获取、配置解析、资源名计算等不依赖 UI 组件对象的接口必须定义在对应 UIModel 中，由 UICtrl 调用其结果刷新 UI
